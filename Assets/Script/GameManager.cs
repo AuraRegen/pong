@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
-    public static int PlayerScore1 = 0;
-    public static int PlayerScore2 = 0;
+    public static int PlayerScore1;
+    public static int PlayerScore2;
 
     public Text leftPlayerText;
     public Text rightPlayerText;
@@ -16,19 +17,33 @@ public class GameManager : MonoBehaviour {
 
     private BallControl ballControl;
 
+    private bool gameOver;
+
+    public int maxScore = 5;
+
+    public GameObject blackPanel;
+
     // Use this for initialization
     void Start () {
         GameObject theBall = GameObject.FindGameObjectWithTag("Ball");
         this.ballControl = theBall.GetComponent<BallControl>();
         this.ballControl.setGameManager(this);
-        this.leftPlayerText.text = "0";
-        this.rightPlayerText.text = "0";
-        
+
+        PlayerScore1 = 0;
+        PlayerScore2 = 0;
+        this.leftPlayerText.text = PlayerScore1.ToString();
+        this.rightPlayerText.text = PlayerScore2.ToString();
+        this.gameOver = false;
+        this.blackPanel.GetComponent<BlackPanelScript>().FadeInGame();
     }
 	
 	// Update is called once per frame
 	void Update () {
-		
+        //Debug.Log("game over" + gameOver + "|" + "input anyKey" + Input.anyKey);
+        if (gameOver && Input.anyKey)
+        {
+            Application.LoadLevel(Application.loadedLevel);
+        }
 	}
 
     public void Score(string wallID)
@@ -60,11 +75,12 @@ public class GameManager : MonoBehaviour {
 
     public bool gameIsOver()
     {
-        return PlayerScore1 == 3 || PlayerScore2 == 3;
+        return PlayerScore1 == maxScore || PlayerScore2 == maxScore;
     }
 
     private void endGame()
     {
+        this.gameOver = true;
         this.ballControl.ResetBall();
         this.youWin.GetComponent<YouWinScript>().FadeYouWinPanel();
     }
