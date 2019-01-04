@@ -39,13 +39,18 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //Debug.Log("game over" + gameOver + "|" + "input anyKey" + Input.anyKey);
+        
         if (gameOver && Input.anyKey)
         {
             SceneManager.LoadScene("GameScene");
         }
 	}
 
+    /*
+    * Increase the score of the player
+    * according to the wall that as been it
+    * and end the game if the max score as been reach
+    */
     public void Score(string wallID)
     {
         if (wallID == "RightWall")
@@ -60,9 +65,6 @@ public class GameManager : MonoBehaviour {
         if (this.gameIsOver())
         {
             this.endGame();
-        } else
-        {
-            this.ballControl.RestartGame();
         }
         
     }
@@ -81,7 +83,7 @@ public class GameManager : MonoBehaviour {
     private void endGame()
     {
         this.gameOver = true;
-        this.ballControl.ResetBall();
+        this.ballControl.EndGame();
         this.youWin.GetComponent<YouWinScript>().FadeYouWinPanel();
     }
 
