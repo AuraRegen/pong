@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour {
         //Debug.Log("game over" + gameOver + "|" + "input anyKey" + Input.anyKey);
         if (gameOver && Input.anyKey)
         {
-            Application.LoadLevel(Application.loadedLevel);
+            SceneManager.LoadScene("GameScene");
         }
 	}
 

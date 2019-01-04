@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallControl : MonoBehaviour {
+public class BallControl : MonoBehaviour
+{
 
     private Rigidbody2D rb2d;
     public ParticleSystem expl;
     private TrailRenderer trail;
-    
+
     private GameManager gameManager;
 
     public AudioClip[] randomClip;
@@ -17,17 +18,19 @@ public class BallControl : MonoBehaviour {
     private int previousNumber;
     public float maxTimeInMilli;
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         this.rb2d = GetComponent<Rigidbody2D>();
         this.trail = GetComponent<TrailRenderer>();
         this.audioSource = GetComponent<AudioSource>();
         Invoke("GoBall", 2);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
     void GoBall()
     {
         float rand = Random.Range(0, 2);
@@ -47,7 +50,7 @@ public class BallControl : MonoBehaviour {
 
         rb2d.velocity = Vector2.zero;
         transform.position = Vector2.zero;
-       
+
     }
 
     public void RestartGame()
@@ -59,7 +62,7 @@ public class BallControl : MonoBehaviour {
 
     void EndGame()
     {
-        
+
     }
 
 
@@ -71,15 +74,17 @@ public class BallControl : MonoBehaviour {
         {
             rb2d.velocity *= 1.1f;
 
-            this.playExplParticuleEffect(coll,Color.white);
-        }else if (coll.collider.gameObject.name.Equals("LeftWall") 
-            || coll.collider.gameObject.name.Equals("RightWall"))
-        {   
+            this.playExplParticuleEffect(coll, Color.white);
+        }
+        else if (coll.collider.gameObject.name.Equals("LeftWall")
+           || coll.collider.gameObject.name.Equals("RightWall"))
+        {
             this.gameManager.Score(coll.collider.gameObject.name);
             this.playExplParticuleEffect(coll, Color.red);
-        } else
+        }
+        else
         {
-            this.playExplParticuleEffect(coll,Color.white);
+            this.playExplParticuleEffect(coll, Color.white);
         }
     }
 
@@ -94,7 +99,7 @@ public class BallControl : MonoBehaviour {
         return impulse;
     }
 
-    void playExplParticuleEffect(Collision2D coll,Color color)
+    void playExplParticuleEffect(Collision2D coll, Color color)
     {
         var main = expl.main;
         main.startColor = color;
@@ -110,7 +115,7 @@ public class BallControl : MonoBehaviour {
 
     private void playRandomSound()
     {
-        
+
         int newNumber = Random.Range(0, this.randomClip.Length);
         if (newNumber == previousNumber)
         {
@@ -120,7 +125,7 @@ public class BallControl : MonoBehaviour {
         {
             audioSource.clip = this.randomClip[newNumber];
             audioSource.Play();
-            
+
             previousNumber = newNumber;
         }
     }

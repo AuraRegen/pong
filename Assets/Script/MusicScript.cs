@@ -6,6 +6,16 @@ public class MusicScript : MonoBehaviour {
 
     static MusicScript instance;
 
+    public AudioSource music;
+
+    private int previousNumber;
+
+    private float musicVolume = 0.5f;
+
+    void Start()
+    {
+        AudioListener.volume = musicVolume;
+    }
 	// Use this for initialization
 	void Awake () {
 	    if(instance != null)
@@ -17,9 +27,16 @@ public class MusicScript : MonoBehaviour {
             GameObject.DontDestroyOnLoad(gameObject);
         }	
 	}
+
+    void Update()
+    {
+        AudioListener.volume = musicVolume;
+    }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public void SetVolume(float pVolume)
+    {
+        this.musicVolume = pVolume;
+    }
+
+
 }
